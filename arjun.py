@@ -293,6 +293,7 @@ except KeyboardInterrupt:
     quit()
 
 # Finally, export to json
+args.output_file = args.output_file.replace(":", "").replace("/", "_").strip("_")
 if args.output_file and finalResult:
     print("%s Saving output to JSON file in %s" % (info, args.output_file))
     with open(str(args.output_file), "w+", encoding="utf8") as json_output:
