@@ -7,19 +7,29 @@ import requests
 
 import core.config
 
-warnings.filterwarnings('ignore') # Disable SSL related warnings
+warnings.filterwarnings("ignore")  # Disable SSL related warnings
+
 
 def requester(url, data, headers, GET, delay):
-    if core.config.globalVariables['jsonData']:
+    if core.config.globalVariables["jsonData"]:
         data = json.dumps(data)
-    if core.config.globalVariables['stable']:
-        delay = random.choice(range(6, 12))
+    if core.config.globalVariables["stable"]:
+        delay = random.choice(range(3, 10))
     time.sleep(delay)
-    headers['Host'] = re.search(r'https?://([^/]+)', url).group(1)
+    headers["Host"] = re.search(r"https?://([^/]+)", url).group(1)
     if GET:
-        response = requests.get(url, params=data, headers=headers, verify=False)
-    elif core.config.globalVariables['jsonData']:
-        response = requests.post(url, json=data, headers=headers, verify=False)
+        try:
+            response = requests.get(url, params=data, headers=headers, verify=False)
+        except Exception:
+            return None
+    elif core.config.globalVariables["jsonData"]:
+        try:
+            response = requests.post(url, json=data, headers=headers, verify=False)
+        except Exception:
+            return None
     else:
-        response = requests.post(url, data=data, headers=headers, verify=False)
+        try:
+            response = requests.post(url, data=data, headers=headers, verify=False)
+        except Exception:
+            return None
     return response
