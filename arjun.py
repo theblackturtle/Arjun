@@ -14,6 +14,7 @@ import re
 import json
 import time
 import argparse
+from pathlib import Path
 
 import core.config
 from core.prompt import prompt
@@ -293,9 +294,10 @@ except KeyboardInterrupt:
     quit()
 
 # Finally, export to json
-args.output_file = args.output_file.replace(":", "").replace("/", "_").strip("_")
-if args.output_file and finalResult:
-    print("%s Saving output to JSON file in %s" % (info, args.output_file))
-    with open(str(args.output_file), "w+", encoding="utf8") as json_output:
+out_path = Path(args.output_file)
+out_file = str(out_path.parent) + "/" + str(out_path.name).replace(":", "").replace("/", "_").strip("_")
+if out_file and finalResult:
+    print("%s Saving output to JSON file in %s" % (info, out_file))
+    with open(str(out_file), "w+", encoding="utf8") as json_output:
         json.dump(finalResult, json_output, sort_keys=True)
         json_output.write("\n")
