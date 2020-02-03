@@ -54,7 +54,7 @@ def stabilize(url):
         try:
             requests.get("http://%s" % url)  # Makes request to the target with http schema
             url = "http://%s" % url
-        except:  # if it fails, maybe the target uses https schema
+        except Exception:  # if it fails, maybe the target uses https schema
             url = "https://%s" % url
 
     try:
